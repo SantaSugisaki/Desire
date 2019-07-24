@@ -26,6 +26,9 @@ const (
 	LT = "<"
 	GT = ">"
 
+	EQ = "=="
+	NOT_EQ = "!="
+
 	// デリミタ
 	COMMA     = ","
 	SEMICOLON = ";"
@@ -48,8 +51,8 @@ const (
 var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
-	"true": TRUE,
-	"false": FALSE,
+	"true":   TRUE,
+	"false":  FALSE,
 	"if":     IF,
 	"else":   ELSE,
 	"return": RETURN,
@@ -61,3 +64,4 @@ func LookupIdent(ident string) TokenType {
 	}
 	return IDENT
 }
+
