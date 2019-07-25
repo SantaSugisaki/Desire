@@ -132,3 +132,4 @@ func (l *Lexer) peekChar() byte {
 		return l.input[l.readPosition]
 	}
 }
+
