@@ -4,11 +4,12 @@ import (
 	"../token"
 )
 
+// ノード型を定義している。識別子をフィールドに持つ
 type Node interface {
 	TokenLiteral() string
 }
 
-// 文
+// 構文として意味を持つノードの型を定義している。
 type Statement interface {
 	Node
 	statementNode()
