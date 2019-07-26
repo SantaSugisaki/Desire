@@ -48,6 +48,7 @@ const (
 	RETURN   = "RETURN"
 )
 
+// 予約後をトークンの種類と結びつけている
 var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
@@ -58,10 +59,10 @@ var keywords = map[string]TokenType{
 	"return": RETURN,
 }
 
+// 識別子が予約後だった時予約後の種類を返しそれ以外の時識別子を返す
 func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok
 	}
 	return IDENT
 }
-

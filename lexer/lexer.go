@@ -2,6 +2,7 @@ package lexer
 
 import "../token"
 
+// 字句解析器の構成要素そのもの
 type Lexer struct {
 	input        string
 	position     int  // 入力における現在の位置(現在の文字を指し示す)
@@ -9,12 +10,14 @@ type Lexer struct {
 	ch           byte // 現在検査中の文字
 }
 
+// 字句解析器の初期化
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
 	return l
 }
 
+// 次の文字を読み込んでpositionとreadPositionを更新している
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
@@ -25,11 +28,13 @@ func (l *Lexer) readChar() {
 	l.readPosition++
 }
 
+// 次のトークンを返す字句解析器のメソッド
 func (l *Lexer) NextToken() token.Token {
-	var tok token.Token
+	var tok token.Token	// トークン型の変数を定義している
 
-	l.skipWhitespace()
+	l.skipWhitespace()	// 次のトークンの場所までスキップ
 
+	// トークンの種類を解析している
 	switch l.ch {
 	case '=':
 		if l.peekChar() == '=' {
@@ -91,6 +96,7 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
+// 識別子を読み込むための関数
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
@@ -99,14 +105,17 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
+// アルファベットかどうかを判定してくれる関数
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
 
+// トークンの種類と識別子(1文字)を決める関数
 func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
 }
 
+// 次のトークンまでpositionをすすめる関数
 func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
@@ -132,4 +141,3 @@ func (l *Lexer) peekChar() byte {
 		return l.input[l.readPosition]
 	}
 }
-
