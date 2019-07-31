@@ -34,15 +34,24 @@ func (p *Program) TokenLiteral() string {
 	}
 }
 
-// let文
+// let構文
 type LetStatement struct {
 	Token token.Token // token.LET トークン
 	Name *Identifier
 	Value Expression
 }
 
+// return文
+type ReturnStatement struct {
+	Token token.Token // 'return' トークン
+	ReturnValue Expression
+}
+
+func (rs *ReturnStatement) statementNode() {}
+func (rs *ReturnStatement) TokenLiteral() string { return rs.Token.Literal}
+
 func (ls *LetStatement) statementNode() {}
-func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal}
+func (ls *LetStatement) TokenLiteral() string { return ls.Token.Literal} // let構文の識別子を返すメソッド
 
 // 識別子
 type Identifier struct {

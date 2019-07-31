@@ -10,7 +10,7 @@ type Lexer struct {
 	ch           byte // 現在検査中の文字
 }
 
-// 字句解析器の初期化
+// 字句解析器を生成する関数
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
