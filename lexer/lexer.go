@@ -30,9 +30,9 @@ func (l *Lexer) readChar() {
 
 // 次のトークンを返す字句解析器のメソッド
 func (l *Lexer) NextToken() token.Token {
-	var tok token.Token	// トークン型の変数を定義している
+	var tok token.Token // トークン型の変数を定義している
 
-	l.skipWhitespace()	// 次のトークンの場所までスキップ
+	l.skipWhitespace() // 次のトークンの場所までスキップ
 
 	// トークンの種類を解析している
 	switch l.ch {

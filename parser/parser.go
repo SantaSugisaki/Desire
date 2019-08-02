@@ -1,10 +1,10 @@
 package parser
 
 import (
-	"fmt"
 	"../ast"
 	"../lexer"
 	"../token"
+	"fmt"
 )
 
 type Parser struct {
@@ -13,14 +13,17 @@ type Parser struct {
 
 	errors []string
 
-	curToken token.Token // 現在のトークン
+	curToken  token.Token // 現在のトークン
 	peekToken token.Token // 次のトークン
+
+	prefixParseFns map[token.TokenType]prefixParseFn
+	infixParseFns  map[token.TokenType]infixParseFn
 }
 
 // パーサを生成する関数
 func New(l *lexer.Lexer) *Parser {
 	p := &Parser{l: l,
-				errors: []string{},
+		errors: []string{},
 	}
 
 	// 2つのトークンを読み込む。curTokenとpeekTokenの両方がセットされる。
@@ -35,7 +38,7 @@ func (p *Parser) Errors() []string {
 	return p.errors
 }
 
-func (p *Parser)peekError(t token.TokenType) {
+func (p *Parser) peekError(t token.TokenType) {
 	msg := fmt.Sprintf("expected next token to be %s, got %s instead.", t, p.peekToken.Type)
 	p.errors = append(p.errors, msg)
 }
@@ -43,12 +46,12 @@ func (p *Parser)peekError(t token.TokenType) {
 // 次のトークンを読み込むメソッド
 func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
-	p.peekToken = p.l.NextToken()	// 次のトークンを読み込んでいる
+	p.peekToken = p.l.NextToken() // 次のトークンを読み込んでいる
 }
 
 //
 func (p *Parser) ParseProgram() *ast.Program {
-	program := &ast.Program{}	//
+	program := &ast.Program{} //
 	program.Statements = []ast.Statement{}
 
 	for p.curToken.Type != token.EOF {
@@ -123,4 +126,17 @@ func (p *Parser) expectPeek(t token.TokenType) bool {
 		p.peekError(t)
 		return false
 	}
+}
+
+type (
+	prefixParseFn func() ast.Expression               // 前置構文解析関数
+	infixParseFn  func(ast.Expression) ast.Expression // 中置構文解析関数
+)
+
+func (p *Parser) registerPrefix(tokenType token.TokenType, fn prefixParseFn) {
+	p.prefixParseFns[tokenType] = fn
+}
+
+func (p *Parser) registerInfix(tokenType token.TokenType, fn infixParseFn) {
+	p.infixParseFns[tokenType] = fn
 }

@@ -4,7 +4,7 @@ type TokenType string
 
 type Token struct {
 	Type    TokenType
-	Literal string  // 文字列
+	Literal string // 文字列
 }
 
 const (
@@ -26,7 +26,7 @@ const (
 	LT = "<"
 	GT = ">"
 
-	EQ = "=="
+	EQ     = "=="
 	NOT_EQ = "!="
 
 	// デリミタ
