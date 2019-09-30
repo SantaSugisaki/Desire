@@ -1,3 +1,4 @@
+// 字句解析器
 package lexer
 
 import "../token"

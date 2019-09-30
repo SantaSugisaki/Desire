@@ -1,0 +1,14 @@
+lexer: 字句解析器
+parser: 構文解析木
+ast: 抽象構文木
+literal: リテラル
+identifier: 識別子
+prefix: 前置
+infix: 中置
+postfix: 後置
+statements: 文
+expression: 式
+binary expressions: 2項演算式
+operator: 演算子
+integer: 整数
+registar: 一時的な記憶装置
